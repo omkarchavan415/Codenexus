@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { color-scheme: dark; }
+  body {
+    @apply bg-ink-900 text-bone font-sans antialiased;
+    font-variant-numeric: tabular-nums;
+    min-height: 100vh;
+  }
+  h1, h2, h3 { @apply font-display tracking-tight; }
+  :focus-visible { outline: 2px solid #F0B03A; outline-offset: 2px; border-radius: 6px; }
+  ::selection { background: #F0B03A; color: #091416; }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-tab px-4 py-2.5 text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-primary { @apply bg-marigold text-ink-950 hover:bg-[#f6c05c]; }
+  .btn-quiet { @apply border border-ink-600 text-bone hover:bg-ink-700; }
+  .btn-danger { @apply border border-coral/60 text-coral hover:bg-coral/10; }
+  .btn-small { @apply px-3 py-1.5 text-xs; }
+  .input {
+    @apply w-full rounded-tab border border-ink-600 bg-ink-800 px-3 py-2.5 text-sm text-bone placeholder:text-mute/70 focus:border-marigold;
+  }
+  .panel { @apply rounded-panel border border-ink-700 bg-ink-800/60; }
+  .row-rule { @apply border-t border-ink-700; }
+  .link { @apply text-marigold underline-offset-4 hover:underline; }
+}
+
+@keyframes ring-in { from { stroke-dashoffset: var(--ring-full); } }
+.ring-arc { animation: ring-in 0.9s cubic-bezier(0.22, 1, 0.36, 1); }
