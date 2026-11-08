@@ -97,10 +97,12 @@ module.exports = router;
 
 /** Skill levels and score history, mounted separately under /api. */
 const insights = express.Router();
-insights.use(authenticate);
+// Authenticate per route, not with router.use: this router is mounted at /api, and a blanket guard
+// would answer 401 for every unknown /api path instead of letting it fall through to the 404 handler.
 
 insights.get(
   '/skills',
+  authenticate,
   asyncHandler(async (req, res) => {
     const levels = await loadLevels(req.user._id);
     const scores = subjectScores(levels);
@@ -117,6 +119,7 @@ insights.get(
 
 insights.get(
   '/progress',
+  authenticate,
   asyncHandler(async (req, res) => {
     res.json(await loadProgress(req.user._id));
   }),
