@@ -313,7 +313,8 @@ function createAdminRouter({ gemini } = {}) {
         ...questionQuality(r, { minAsked }),
       }));
       if (flaggedOnly) items = items.filter((i) => i.flag || i.flaggedByAdmin);
-      items.sort((a, b) => (a.accuracy ?? 2) - (b.accuracy ?? 2) || b.asked - a.asked);
+      // Well-measured questions first (lowest accuracy first); thin samples after them.
+      items.sort((a, b) => Number(b.enoughData) - Number(a.enoughData) || (a.accuracy ?? 2) - (b.accuracy ?? 2) || b.asked - a.asked);
       res.json({ minAsked, total: items.length, questions: items.slice(0, 300) });
     }),
   );
